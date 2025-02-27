@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap');
+
+        * {
+            font-family: 'Prompt', sans-serif;
+        }
+        
+        body {
+            font-family: 'Prompt', sans-serif;
+            text-align: center;
+            background-color: #000;
+            color: white;
+            padding: 20px;
+        }
+
+        #loginForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .input {
+            margin: 10px;
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid white;
+            background-color: black;
+            color: white;
+            width: 200px;
+            text-align: center;
+        }
+
+        .button {
+            font-size: 18px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: blue;
+            color: white;
+            margin: 10px;
+        }
+
+        #randomFood {
+            font-size: 50px;
+            font-weight: bold;
+            color: gold;
+            margin: 20px 0;
+            transition: 1s;
+        }
+
+        #logout {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- ฟอร์มล็อกอิน -->
+    <div id="loginForm">
+        <h1>เข้าสู่ระบบ</h1>
+        <input id="username" class="input" type="text" placeholder="ชื่อผู้ใช้">
+        <input id="password" class="input" type="password" placeholder="รหัสผ่าน">
+        <button class="button" onclick="login()">เข้าสู่ระบบ</button>
+    </div>
+
+    <!-- หน้าหลักหลังล็อกอิน -->
+    <div id="mainPage" style="display: none;">
+        <h1>ตัวสุ่มอาหาร - กาพย์เห่ชมเครื่องคาวหวาน</h1>
+        <h2>อาหารที่สุ่มได้:</h2>
+        <div id="randomFood">-</div>
+        <button class="button" onclick="generateRandomFood()">สุ่มอาหาร</button>
+        <br><br>
+        <button id="logout" class="button" onclick="logout()">ออกจากระบบ</button>
+    </div>
+
+    <script>
+        const foods = [
+            "มัสมั่น", "ยำใหญ่", "ตับเหล็ก", "หมูแนม", "ก้อยกุ้ง",
+            "แกงเทโพ", "แกงขม", "ข้าวหุง", "แกงคั่วส้ม", "หมูป่าใส่ระกำ",
+            "พล่าเนื้อ", "ล่าเตียง", "หรุ่ม", "รังนก", "แกงไตปลา",
+            "แสร้งว่า", "ผักหวาน", "ข้าวเหนียวสังขยา", "ซ่าหริ่ม", "ลำเจียก",
+            "มัศกอด", "ลุดตี่", "ขนมจีบ", "ขนมเทียน", "ทองหยิบ",
+            "ขนมผิง", "รังไร (เรไร)", "ทองม้วน", "ทองหยอด", "จ่ามงกุฎ",
+            "บัวลอย", "ช่อม่วง", "ฝอยทอง"
+        ];
+
+        function generateRandomFood() {
+            const randomIndex = Math.floor(Math.random() * foods.length);
+            document.getElementById('randomFood').textContent = foods[randomIndex];
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === "พิทยาสถาพร" && password === "2442") {
+                localStorage.setItem("loggedIn", "true");
+                showMainPage();
+            } else {
+                alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! คุณได้รับอนุญาตหรือยัง?");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            location.reload();
+        }
+
+        function showMainPage() {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("mainPage").style.display = "block";
+        }
+
+        function checkLoginStatus() {
+            if (localStorage.getItem("loggedIn") === "true") {
+                showMainPage();
+            }
+        }
+
+        checkLoginStatus();
+    </script>
+</body>
+</html>
